@@ -1,0 +1,28 @@
+name: 'Code Coverage Report'
+description: 'Generate a code coverage report'
+
+inputs:
+  github_token:
+    description: 'GitHub token with repo access'
+    required: false
+    default: '${{ github.token }}'
+  coverage_file:
+    description: 'Path to the coverage file'
+    required: false
+    default: 'coverage/lcov.info'
+  coverage_threshold:
+    description: 'Minimum acceptable coverage percentage'
+    required: false
+    default: '80'
+  include_pattern:
+    description: 'Regex pattern to find files that should be included in the report'
+    required: true
+    example: '^.*\.dart$'
+  exclude_pattern:
+    description: 'Regex pattern to exclude files from the report'
+    required: true
+    example: 'test/|\.dart_tool/'
+
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
