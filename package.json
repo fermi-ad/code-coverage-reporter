@@ -1,0 +1,23 @@
+{
+  "name": "code-coverage-reporter",
+  "version": "1.0.1",
+  "description": "A GitHub Action to report code coverage within Pull Requests",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test \"**/*.spec.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fermi-ad/code-coverage-reporter.git"
+  },
+  "author": "Fermi National Accelerator Laboratory - Accelerator Directorate",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fermi-ad/code-coverage-reporter/issues"
+  },
+  "homepage": "https://github.com/fermi-ad/code-coverage-reporter#readme",
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "@actions/github": "^6.0.1"
+  }
+}
