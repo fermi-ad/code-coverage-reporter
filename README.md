@@ -60,7 +60,7 @@ To package the `dist/index.js`, use `esbuild` or `ncc`. The steps are as follows
 3. #### Build the distributable
   Generate the executable JS file with
   ```
-  ncc build index.js --out dist
+  ncc build src/index.js --out dist
   ```
 
 ## Example output
