@@ -43,7 +43,7 @@ This action may be called from within any workflow that produces a `lcov.info` f
 
 This is a JavaScript GitHub action, with `index.js` as its entry point. To ensure dependencies are correctly aligned for use within CI/CD pipelines, the "development" code must be packaged into a "production" `index.js`.
 
-All source code is within this outer directory, and the executed code is compiled to `dist/index.js`. If any changes are made, a new `dist/index.js` must be built. 
+All source code is within the `src/` directory, and the executed code is compiled to `dist/index.js`. If any changes are made in `src/`, a new `dist/index.js` must be built. 
 
 ### Packaging
 To package the `dist/index.js`, use `esbuild` or `ncc`. The steps are as follows:
