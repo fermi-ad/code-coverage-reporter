@@ -95,8 +95,10 @@ class DirectoryCoverage {
 
     findFiles(includePattern, excludePattern) {
         fs.readdirSync(this.dir).forEach(file => {
+            console.info(`Processing file: ${this.dir}/${file}`);
             const fullPath = `${this.dir}/${file}`;
             if (includePattern.test(fullPath) && !excludePattern.test(fullPath)) {
+                console.info(`Adding single file coverage record: ${this.dir}/${file}`);
                 const truncatedPath = fullPath.replace('./', '');
                 const linesInFile = fs.readFileSync(fullPath, 'utf8').split('\n').length;
                 const coverageRecord = new FileCoverage(truncatedPath, linesInFile);
@@ -105,6 +107,7 @@ class DirectoryCoverage {
                 const subCache = new DirectoryCoverage(fullPath);
                 subCache.findFiles(includePattern, excludePattern);
                 if (subCache.cache.size > 0) {
+                    console.info(`Adding directory coverage record: ${this.dir}/${file}`);
                     this.cache.set(file, subCache);
                 }
             }
@@ -112,13 +115,17 @@ class DirectoryCoverage {
     }
 
     get(filepath) {
-        const delimiterIndex = filepath.indexOf('/');
-        if (delimiterIndex === -1) {
-            return this.cache.get(filepath);
+        try {
+            const delimiterIndex = filepath.indexOf('/');
+            if (delimiterIndex === -1) {
+                return this.cache.get(filepath);
+            }
+            const directory = filepath.substring(0, delimiterIndex);
+            const subPath = filepath.substring(delimiterIndex + 1);
+            return this.cache.get(directory).get(subPath);
+        } catch (err) {
+            throw new Error(`Could not find a coverage record for file: ${filepath}`);
         }
-        const directory = filepath.substring(0, delimiterIndex);
-        const subPath = filepath.substring(delimiterIndex + 1);
-        return this.cache.get(directory).get(subPath);
     }
 
     getMetrics() {
