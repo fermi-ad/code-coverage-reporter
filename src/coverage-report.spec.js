@@ -61,18 +61,18 @@ LF:8
 end_of_record
 `;
 
-const expectedReport = `## Code Coverage Report - 17 of 30 lines covered (:no_entry: 56.67%) 
+const expectedReport = `## Code Coverage Report - 17 of 30 lines covered ( :no_entry: 56.67%) 
 
 <details>
 <summary>
 
-### tmp_test_files - 17 of 30 lines covered (:no_entry: 56.67%) 
+### tmp_test_files - 17 of 30 lines covered ( :no_entry: 56.67%) 
 
 </summary> 
 <details>
 <summary>
 
-### tmp_test_files/file1 - 4 of 8 lines covered (:no_entry: 50.00%) 
+### tmp_test_files/file1 - 4 of 8 lines covered ( :no_entry: 50.00%) 
 
 </summary> 
 Uncovered lines: :warning: 4, 6-8 
@@ -81,7 +81,7 @@ Uncovered lines: :warning: 4, 6-8
 <details>
 <summary>
 
-### tmp_test_files/file2 - 0 of 1 lines covered (:no_entry: 0.00%) 
+### tmp_test_files/file2 - 0 of 1 lines covered ( :no_entry: 0.00%) 
 
 </summary> 
 Uncovered lines: :no_entry: This file is missing coverage. 
@@ -90,7 +90,7 @@ Uncovered lines: :no_entry: This file is missing coverage.
 <details>
 <summary>
 
-### tmp_test_files/file3 - 5 of 13 lines covered (:no_entry: 38.46%) 
+### tmp_test_files/file3 - 5 of 13 lines covered ( :no_entry: 38.46%) 
 
 </summary> 
 Uncovered lines: :warning: 1, 4-7, 10, 12, 123 
@@ -99,13 +99,13 @@ Uncovered lines: :warning: 1, 4-7, 10, 12, 123
 <details>
 <summary>
 
-### tmp_test_files/inner_dir - 8 of 8 lines covered (:white_check_mark: 100.00%) 
+### tmp_test_files/inner_dir - 8 of 8 lines covered ( :white_check_mark: 100.00%) 
 
 </summary> 
 <details>
 <summary>
 
-### tmp_test_files/inner_dir/file1 - 8 of 8 lines covered (:white_check_mark: 100.00%) 
+### tmp_test_files/inner_dir/file1 - 8 of 8 lines covered ( :white_check_mark: 100.00%) 
 
 </summary> 
 Uncovered lines: :white_check_mark: None 
@@ -119,7 +119,7 @@ Uncovered lines: :white_check_mark: None
 describe('CoverageReport', () => {
     it('should return an empty report when no files', () => {
         const reporter = new CoverageReport();
-        assert.strictEqual(reporter.generateReport(), '## Code Coverage Report - 0 of 0 lines covered (:no_entry: 0.00%) \n\n');
+        assert.strictEqual(reporter.generateReport(), '## Code Coverage Report - 0 of 0 lines covered ( :no_entry: 0.00%) \n\n');
     });
     it('should report coverage based on contents of lcov text', () => {
         generateTmpTestDir();

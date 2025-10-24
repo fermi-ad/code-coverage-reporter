@@ -9,7 +9,7 @@ function getFormattedCoveragePercentage(metrics) {
     } else {
         percentage = (metrics.linesHit / metrics.linesFound) * 100;
     }
-    return `${metrics.linesHit.toLocaleString()} of ${metrics.linesFound.toLocaleString()} lines covered (${formatPercentage(percentage)})`;
+    return `${metrics.linesHit.toLocaleString()} of ${metrics.linesFound.toLocaleString()} lines covered ( ${formatPercentage(percentage)})`;
 }
 
 class FileCoverage {
