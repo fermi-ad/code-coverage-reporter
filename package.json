@@ -1,6 +1,6 @@
 {
   "name": "code-coverage-reporter",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A GitHub Action to report code coverage within Pull Requests",
   "main": "src/index.js",
   "scripts": {
