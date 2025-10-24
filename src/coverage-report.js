@@ -95,7 +95,6 @@ class DirectoryCoverage {
 
     findFiles(includePattern, excludePattern) {
         fs.readdirSync(this.dir).forEach(file => {
-            console.info(`Processing file: ${this.dir}/${file}`);
             const fullPath = `${this.dir}/${file}`;
             if (includePattern.test(fullPath) && !excludePattern.test(fullPath)) {
                 console.info(`Adding single file coverage record: ${this.dir}/${file}`);
@@ -124,7 +123,7 @@ class DirectoryCoverage {
             const subPath = filepath.substring(delimiterIndex + 1);
             return this.cache.get(directory).get(subPath);
         } catch (err) {
-            throw new Error(`Could not find a coverage record for file: ${filepath}`);
+            throw new Error(`Could not find a coverage record for file: ${filepath}\n\nTry adjusting your include_pattern and exclude_pattern settings.`);
         }
     }
 
