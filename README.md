@@ -67,75 +67,34 @@ To package the `dist/index.js`, use `esbuild` or `ncc`. The steps are as follows
 
 ---
 
-## Code Coverage Report - :no_entry: 3.82% 
-<details>
-
-<summary> 
-
-### lib - :no_entry: 3.82% 
-
-</summary> 
+# Code Coverage Report - 416 of 495 lines covered ( :warning: 84.04%)
 
 <details>
+  <summary>
+    
+  ### src - 416 of 495 lines covered ( :warning: 84.04%)
+    
+  </summary>
+  <details>
+    <summary>
+      
+  ### src/db - 90 of 123 lines covered ( :no_entry: 73.17%)
+      
+  </summary>
+    <details>
+      <summary>
+      
+  ### src/db/mod.rs - 90 of 90 lines covered ( :white_check_mark: 100.00%)
+        
+   </summary>
+      
+  Uncovered lines: :white_check_mark: None
+      
+  </details>
+  </details>
 
-<summary>
-
-### lib/main.dart - :no_entry: 0.00% 
-
-</summary> 
-
-Uncovered lines: :no_entry: This file is missing coverage. 
-
-</details> 
-
-<details>
-
-<summary>
-
-### lib/models - :no_entry: 55.56% 
-
-</summary> 
-
-<details>
-
-<summary>
-
-### lib/models/es_data.dart - :no_entry: 55.56% 
-
-</summary> 
-
-Uncovered lines: :warning: 17-24 
-
-</details> 
-
-
-</details> 
-
-<details>
-
-<summary>
-
-### lib/views - :no_entry: 0.00% 
-
-</summary> 
-
-<details>
-
-<summary>
-
-### lib/views/es_status.dart - :no_entry: 0.00% 
-
-</summary> 
-
-Uncovered lines: :no_entry: This file is missing coverage. 
-
-</details> 
-
-
-</details> 
-
-
-</details> 
+  ### Etc...
+</details>
 
 ---
 
