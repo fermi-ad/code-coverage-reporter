@@ -57,7 +57,7 @@ jobs:
       - name: Run tests with coverage
         run: <some command that generates the lcov.info file>
       - name: Generate coverage report
-        uses: fermi-ad/code-coverate-reporter@<release tag or commit hash>
+        uses: fermi-ad/code-coverage-reporter@<release tag or commit hash>
         with:
           include_pattern: <some regex matching files to report coverage for>
           exclude_pattern: <some regex matching files that would be included, but are not intended for code coverage reporting>
