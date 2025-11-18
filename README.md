@@ -38,6 +38,30 @@ This action may be called from within any workflow that produces a `lcov.info` f
   Note that any file appearing in the `lcov.info` report should **never** be matched by this pattern, or else the action will fail. 
   
   This value is **required**.
+
+### Example workflow
+```
+name: Some workflow
+
+on:
+  [your workflow triggers]
+
+jobs:
+  a-job:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      ...
+      - name: Run tests with coverage
+        run: <some command that generates the lcov.info file>
+      - name: Generate coverage report
+        uses: fermi-ad/code-coverate-reporter@<release tag or commit hash>
+        with:
+          include_pattern: <some regex matching files to report coverage for>
+          exclude_pattern: <some regex matching files that would be included, but are not intended for code coverage reporting>
+      ...
+```
  
 ## Build
 
