@@ -51,6 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
     steps:
       ...
       - name: Run tests with coverage
