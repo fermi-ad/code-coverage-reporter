@@ -18,6 +18,6 @@
   "homepage": "https://github.com/fermi-ad/code-coverage-reporter#readme",
   "dependencies": {
     "@actions/core": "^1.11.1",
-    "@actions/github": "^6.0.1"
+    "@actions/github": "^7.0.0"
   }
 }
