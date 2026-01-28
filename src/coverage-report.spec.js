@@ -1,11 +1,7 @@
-process.env['INPUT_COVERAGE_THRESHOLD'] = 80;
-process.env['INPUT_INCLUDE_PATTERN'] = 'tmp_test_files/.*file.*$';
-process.env['INPUT_EXCLUDE_PATTERN'] = '\.excluded';
-
-const CoverageReport = require('./coverage-report');
-const { describe, it } = require('node:test');
-const assert = require('node:assert');
-const fs = require('fs');
+import { CoverageReport } from './coverage-report.js';
+import { describe, it } from 'node:test';
+import assert from 'node:assert';
+import fs from 'fs';
 
 function generateTmpTestDir() {
     fs.mkdirSync('tmp_test_files');
@@ -84,7 +80,7 @@ Uncovered lines: :warning: 4, 6-8
 ### tmp_test_files/file2 - 0 of 1 lines covered ( :no_entry: 0.00%) 
 
 </summary> 
-Uncovered lines: :no_entry: This file is missing coverage. 
+:no_entry: This file is missing coverage. 
 </details> 
 
 <details>
@@ -99,16 +95,16 @@ Uncovered lines: :warning: 1, 4-7, 10, 12, 123
 <details>
 <summary>
 
-### tmp_test_files/inner_dir - 8 of 8 lines covered ( :white_check_mark: 100.00%) 
+### tmp_test_files/inner_dir - 8 of 8 lines covered ( :gem: 100.00%) 
 
 </summary> 
 <details>
 <summary>
 
-### tmp_test_files/inner_dir/file1 - 8 of 8 lines covered ( :white_check_mark: 100.00%) 
+### tmp_test_files/inner_dir/file1 - 8 of 8 lines covered ( :gem: 100.00%) 
 
 </summary> 
-Uncovered lines: :white_check_mark: None 
+:shipit: 
 </details> 
 
 </details> 
