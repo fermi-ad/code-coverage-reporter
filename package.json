@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
+    "build": "ncc build src/index.js --out dist",
     "test": "cross-env INPUT_COVERAGE_THRESHOLD=80 INPUT_INCLUDE_PATTERN='tmp_test_files/.*file.*$' INPUT_EXCLUDE_PATTERN='\\.excluded' node --test '**/*.spec.js'"
   },
   "repository": {
@@ -20,5 +21,8 @@
   "dependencies": {
     "@actions/core": "^2.0.3",
     "@actions/github": "^9.0.0"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.38.4"
   }
 }
