@@ -1,10 +1,12 @@
 {
   "name": "code-coverage-reporter",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A GitHub Action to report code coverage within Pull Requests",
   "main": "src/index.js",
+  "type": "module",
   "scripts": {
-    "test": "node --test \"**/*.spec.js\""
+    "build": "ncc build src/index.js --out dist",
+    "test": "cross-env INPUT_COVERAGE_THRESHOLD=80 INPUT_INCLUDE_PATTERN='tmp_test_files/.*file.*$' INPUT_EXCLUDE_PATTERN='\\.excluded' node --test '**/*.spec.js'"
   },
   "repository": {
     "type": "git",
@@ -17,7 +19,10 @@
   },
   "homepage": "https://github.com/fermi-ad/code-coverage-reporter#readme",
   "dependencies": {
-    "@actions/core": "^1.11.1",
-    "@actions/github": "^6.0.1"
+    "@actions/core": "^2.0.3",
+    "@actions/github": "^9.0.0"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.38.4"
   }
 }

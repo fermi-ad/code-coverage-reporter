@@ -1,7 +1,7 @@
-const core = require('@actions/core');
-const github = require('@actions/github');
-const fs = require('fs');
-const CoverageReport = require('./coverage-report');
+import core from '@actions/core';
+import { context, getOctokit } from '@actions/github';
+import fs from 'fs';
+import { CoverageReport } from './coverage-report.js';
 
 async function run() {
     try {
@@ -9,9 +9,8 @@ async function run() {
         const coverageReport = new CoverageReport();
         coverageReport.parse(lcovInfo);
 
-        const context = github.context;
         const pr_number = context.payload.pull_request?.number;
-        const octokit = github.getOctokit(core.getInput('github_token', { required: true }));
+        const octokit = getOctokit(core.getInput('github_token', { required: true }));
         if (pr_number) {
             await octokit.rest.issues.createComment({
                 ...context.repo,

@@ -71,21 +71,21 @@ This is a JavaScript GitHub action, with `index.js` as its entry point. To ensur
 All source code is within the `src/` directory, and the executed code is compiled to `dist/index.js`. If any changes are made in `src/`, a new `dist/index.js` must be built. 
 
 ### Packaging
-To package the `dist/index.js`, use `esbuild` or `ncc`. The steps are as follows:
-1. #### Install the GitHub libraries
-  This action makes use of GitHub's `@actions/core` and `@actions/github` libraries. Bring them into the development environment using 
+This repository comes with a `build` script for automatically packaging the "production executable" as needed. To generate a version that includes changes to the source files, do the following:
+1. #### Install the project dependencies
+  The `package-lock.json` will have the current dependency versions specified. Make sure you have them loaded by running
   ```
-  npm install @actions/core @actions/github
+  npm ci
   ```
-2. #### Install the packaging library (ncc)
-  The next step is to install the packaging tool you'll use. Here, we'll use `@vercel/ncc`. Install it with 
+2. #### Run the tests to ensure accuracy
+  Testing has been configured within the `package.json` file. Simply run 
   ```
-  npm install -g @vercel/ncc
+  npm run test
   ```
 3. #### Build the distributable
   Generate the executable JS file with
   ```
-  ncc build src/index.js --out dist
+  npm run build
   ```
 
 ## Example output

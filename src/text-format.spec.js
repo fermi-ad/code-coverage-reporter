@@ -1,8 +1,6 @@
-process.env['INPUT_COVERAGE_THRESHOLD'] = 80;
-
-const { formatErrorText, formatWarningText, formatSuccessText, formatPercentage } = require('./text-format');
-const { describe, it } = require('node:test');
-const assert = require('node:assert');
+import { formatErrorText, formatWarningText, formatSuccessText, formatPercentage } from './text-format.js';
+import { describe, it } from 'node:test';
+import assert from 'node:assert';
 
 describe('text-format', () => {
     const testText = 'test';
@@ -30,7 +28,7 @@ describe('text-format', () => {
         it('should return success text when greater than 10% of threshold', () => {
             assert.strictEqual(formatPercentage(88.001), ':white_check_mark: 88.00%');
             assert.strictEqual(formatPercentage(89), ':white_check_mark: 89.00%');
-            assert.strictEqual(formatPercentage(100), ':white_check_mark: 100.00%');
+            assert.strictEqual(formatPercentage(100), ':gem: 100.00%');
         });
     });
 });

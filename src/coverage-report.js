@@ -1,6 +1,6 @@
-const core = require('@actions/core');
-const fs = require('fs');
-const { formatErrorText, formatWarningText, formatSuccessText, formatPercentage } = require('./text-format');
+import core from '@actions/core';
+import fs from 'fs';
+import { formatErrorText, formatWarningText, formatPercentage } from './text-format.js';
 
 function getFormattedCoveragePercentage(metrics) {
     let percentage;
@@ -70,7 +70,7 @@ class FileCoverage {
             combinedLines.push(`${start}-${end}`);
         }
 
-        return this.uncoveredLines.length ? formatWarningText(combinedLines.join(', ')) : formatSuccessText('None');
+        return this.uncoveredLines.length ? `Uncovered lines: ${formatWarningText(combinedLines.join(', '))}` : ':shipit:';
     }
 
     generateReport() {
@@ -80,7 +80,7 @@ class FileCoverage {
 ### ${this.filename} - ${getFormattedCoveragePercentage(this.getMetrics())} 
 
 </summary> 
-Uncovered lines: ${this._getUncoveredLinesPretty()} 
+${this._getUncoveredLinesPretty()} 
 </details> 
 `;
     }
@@ -160,7 +160,7 @@ function generateCoverageRoot() {
     return root;
 }
 
-class CoverageReport {
+export class CoverageReport {
     constructor() {
         this.root = generateCoverageRoot();
     }
@@ -192,5 +192,3 @@ class CoverageReport {
 ${Array.from(this.root.cache.values()).map(coverage => coverage.generateReport()).join('\n')}`;
     }
 }
-
-module.exports = CoverageReport; 
