@@ -1,4 +1,4 @@
-import core from '@actions/core';
+import { getInput } from '@actions/core';
 import fs from 'fs';
 import { formatErrorText, formatWarningText, formatPercentage } from './text-format.js';
 
@@ -153,8 +153,8 @@ ${Array.from(this.cache.values()).map(coverage => coverage.generateReport()).joi
 }
 
 function generateCoverageRoot() {
-    const includePattern = RegExp(core.getInput('include_pattern', { required: true }));
-    const excludePattern = RegExp(core.getInput('exclude_pattern', { required: true }));
+    const includePattern = RegExp(getInput('include_pattern', { required: true }));
+    const excludePattern = RegExp(getInput('exclude_pattern', { required: true }));
     const root = new DirectoryCoverage('.');
     root.findFiles(includePattern, excludePattern);
     return root;

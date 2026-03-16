@@ -1,6 +1,6 @@
-import core from '@actions/core';
+import { getInput } from '@actions/core';
 
-const threshold = core.getInput('coverage_threshold', { required: true });
+const threshold = getInput('coverage_threshold', { required: true });
 
 export function formatErrorText(input) {
     return `:no_entry: ${input}`;
