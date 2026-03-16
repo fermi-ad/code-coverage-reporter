@@ -70,6 +70,8 @@ This is a JavaScript GitHub action, with `index.js` as its entry point. To ensur
 
 All source code is within the `src/` directory, and the executed code is compiled to `dist/index.js`. If any changes are made in `src/`, a new `dist/index.js` must be built. 
 
+*Note*: As of April 2026, GitHub Actions will stop supporting Node.js 20 by default. The latest long-term-support version is Node.js 24. Make sure this is the version of Node you have installed before modifying this repository.
+
 ### Packaging
 This repository comes with a `build` script for automatically packaging the "production executable" as needed. To generate a version that includes changes to the source files, do the following:
 1. #### Install the project dependencies
