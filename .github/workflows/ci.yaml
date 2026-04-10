@@ -1,0 +1,42 @@
+name: Integration 
+
+on:
+  push:
+    branches: 
+        - main
+  pull_request:
+    branches: 
+        - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            pull-requests: write
+    
+        steps:
+            - uses: actions/checkout@v6
+
+            - name: Use Node.js 24
+              uses: actions/setup-node@v6
+              with:
+                node-version: '24'
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Run tests & coverage
+              run: npm run coverage 
+        
+            - name: Generate coverage report
+              uses: ./
+              with:
+                github_token: ${{ secrets.GITHUB_TOKEN }}
+                coverage_file: 'coverage.lcov'
+                include_pattern: \./src/.*\.js$
+                exclude_pattern: \./src/.*\.spec\.js$
