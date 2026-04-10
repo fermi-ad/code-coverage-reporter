@@ -1,12 +1,13 @@
 {
   "name": "code-coverage-reporter",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A GitHub Action to report code coverage within Pull Requests",
   "main": "src/index.js",
   "type": "module",
   "scripts": {
     "build": "ncc build src/index.js --out dist",
-    "test": "cross-env INPUT_COVERAGE_THRESHOLD=80 INPUT_INCLUDE_PATTERN='tmp_test_files/.*file.*$' INPUT_EXCLUDE_PATTERN='\\.excluded' node --test '**/*.spec.js'"
+    "coverage": "cross-env INPUT_COVERAGE_THRESHOLD=80 INPUT_INCLUDE_PATTERN='tmp_test_files/.*file.*$' INPUT_EXCLUDE_PATTERN='\\.excluded' node --test --experimental-test-coverage --test-coverage-include=\"src/**/*.js\" --test-coverage-exclude=\"src/**/*.spec.js\" --test-reporter=lcov --test-reporter-destination=./coverage.lcov \"**/*.spec.js\"",
+    "test": "cross-env INPUT_COVERAGE_THRESHOLD=80 INPUT_INCLUDE_PATTERN='tmp_test_files/.*file.*$' INPUT_EXCLUDE_PATTERN='\\.excluded' node --test \"**/*.spec.js\""
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
     "@actions/github": "9.0.0"
   },
   "devDependencies": {
-    "@vercel/ncc": "0.38.4"
+    "@vercel/ncc": "0.38.4",
+    "cross-env": "^10.1.0"
   }
 }

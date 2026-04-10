@@ -12,8 +12,45 @@ function getFormattedCoveragePercentage(metrics) {
     return `${metrics.linesHit.toLocaleString()} of ${metrics.linesFound.toLocaleString()} lines covered ( ${formatPercentage(percentage)})`;
 }
 
+class ExcludedFileCoverage {
+    constructor(filename) {
+        this.filename = filename;
+    }
+
+    addUncoveredLine(_lineNumber) {
+        // No-op since this file is excluded from coverage, so we don't track uncovered lines.
+    }
+
+    setLinesHit(_linesHit) {
+        // No-op since this file is excluded from coverage, so we don't track hit lines.
+    }
+
+    setLinesFound(_linesFound) {
+        // No-op since this file is excluded from coverage, so we don't track found lines.
+    }
+
+    getMetrics() {
+        return {
+            linesFound: 0,
+            linesHit: 0
+        };
+    }
+
+    generateReport() {
+        return `<details>
+<summary>
+
+### ${this.filename} - File excluded from coverage report 
+
+</summary> 
+File is excluded from coverage report based on your \`include_pattern\` and \`exclude_pattern\` settings.
+</details> 
+`;
+    }
+}
+
 class FileCoverage {
-    constructor(filename, linesFound) {
+    constructor(filename, linesFound = 0) {
         this.filename = filename;
         this.linesFound = linesFound;
         this.uncoveredLines = [];
@@ -96,13 +133,20 @@ class DirectoryCoverage {
     findFiles(includePattern, excludePattern) {
         fs.readdirSync(this.dir).forEach(file => {
             const fullPath = `${this.dir}/${file}`;
-            if (includePattern.test(fullPath) && !excludePattern.test(fullPath)) {
-                console.info(`Adding single file coverage record: ${this.dir}/${file}`);
+            const fileStats = fs.statSync(fullPath);
+            if (includePattern.test(fullPath) && fileStats.isFile()) {
                 const truncatedPath = fullPath.replace('./', '');
-                const linesInFile = fs.readFileSync(fullPath, 'utf8').split('\n').length;
-                const coverageRecord = new FileCoverage(truncatedPath, linesInFile);
+                let coverageRecord;
+                if (excludePattern.test(fullPath)) {
+                    console.info(`Adding excluded file coverage record: ${this.dir}/${file}`);
+                    coverageRecord = new ExcludedFileCoverage(truncatedPath);
+                } else {
+                    console.info(`Adding single file coverage record: ${this.dir}/${file}`);
+                    const linesInFile = fs.readFileSync(fullPath, 'utf8').split('\n').length;
+                    coverageRecord = new FileCoverage(truncatedPath, linesInFile);
+                }
                 this.cache.set(file, coverageRecord);
-            } else if (fs.statSync(fullPath).isDirectory()) {
+            } else if (fileStats.isDirectory()) {
                 const subCache = new DirectoryCoverage(fullPath);
                 subCache.findFiles(includePattern, excludePattern);
                 if (subCache.cache.size > 0) {
@@ -113,18 +157,21 @@ class DirectoryCoverage {
         });
     }
 
-    get(filepath) {
-        try {
-            const delimiterIndex = filepath.indexOf('/');
-            if (delimiterIndex === -1) {
-                return this.cache.get(filepath);
-            }
-            const directory = filepath.substring(0, delimiterIndex);
-            const subPath = filepath.substring(delimiterIndex + 1);
-            return this.cache.get(directory).get(subPath);
-        } catch (err) {
-            throw new Error(`Could not find a coverage record for file: ${filepath}\n\nTry adjusting your include_pattern and exclude_pattern settings.`);
+    _getOrInsertComputed(key, computeFn) {
+        if (!this.cache.has(key)) {
+            this.cache.set(key, computeFn(key));
         }
+        return this.cache.get(key);
+    }
+
+    get(filepath) {
+        const delimiterIndex = filepath.indexOf('/');
+        if (delimiterIndex === -1) {
+            return this._getOrInsertComputed(filepath, () => new ExcludedFileCoverage(filepath));
+        }
+        const directory = filepath.substring(0, delimiterIndex);
+        const subPath = filepath.substring(delimiterIndex + 1);
+        return this._getOrInsertComputed(directory, () => new DirectoryCoverage(directory)).get(subPath);
     }
 
     getMetrics() {
@@ -139,11 +186,19 @@ class DirectoryCoverage {
         return this.metrics;
     }
 
+    _determineLineCount() {
+        const metrics = this.getMetrics();
+        if (metrics.linesFound === 0) {
+            return 'Directory excluded from coverage report';
+        }
+        return `${getFormattedCoveragePercentage(metrics)}`;
+    }
+
     generateReport() {
         return `<details>
 <summary>
 
-### ${this.dir.replace('./', '')} - ${getFormattedCoveragePercentage(this.getMetrics())} 
+### ${this.dir.replace('./', '')} - ${this._determineLineCount()} 
 
 </summary> 
 ${Array.from(this.cache.values()).map(coverage => coverage.generateReport()).join('\n')}

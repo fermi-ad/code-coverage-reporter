@@ -20,8 +20,9 @@ inputs:
     example: '^.*\.dart$'
   exclude_pattern:
     description: 'Regex pattern to exclude files from the report'
-    required: true
+    required: false
     example: 'test/|\.dart_tool/'
+    default: '\\b\\B' # Default to a regex that matches nothing, so that no files are excluded by default.
 
 runs:
   using: 'node24'

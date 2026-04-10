@@ -1,6 +1,6 @@
 # Code Coverage Report
 
-A GiHub Action to generate a comment within Pull Requests with the latest code coverage metrics for that branch.
+A GitHub Action to generate a comment within Pull Requests with the latest code coverage metrics for that branch.
 
 ## How to use
 This action may be called from within any workflow that produces a `lcov.info` file. Generally, this would be created by the test engine of whatever programming language is being used. The code coverage action exposes the following inputs for customizing the report.
@@ -33,11 +33,9 @@ This action may be called from within any workflow that produces a `lcov.info` f
 - #### exclude_pattern
   This is a regex pattern to denote any files that should be ignored by the coverage calculation. 
   
-  Again, taking Dart as an example, all the test files end with `.dart`, but we don't want those files crushing the test coverage metrics (why would we write tests to cover our tests? Then we'd need tests for those tests, and now we're creating an infinity of tests...). Because all the Dart tests live in the `test/` directory, we can add a pattern here that excludes any filepath with `test/` in it. 
+  Again, taking Dart as an example, all the test files end with `.dart`, but we don't want those files crushing the test coverage metrics (why would we write tests to cover our tests? Then we'd need tests for those tests, and now we're creating an infinity of tests...). Because all the Dart tests live in the `test/` directory, we can add a pattern here that excludes any filepath with `test/` in it.
   
-  Note that any file appearing in the `lcov.info` report should **never** be matched by this pattern, or else the action will fail. 
-  
-  This value is **required**.
+  Default: `\\b\\B` -> Indicates a simultaneous word boundary and non-boundary - logically impossible. Therefore, anything matching the [`include_pattern`](#include_pattern) will be checked for coverage.
 
 ### Example workflow
 ```

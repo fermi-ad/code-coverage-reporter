@@ -55,6 +55,11 @@ DA:8,7
 LH:8
 LF:8
 end_of_record
+SF:tmp_test_files/unmapped_dir/unmapped_file
+DA:1,1
+LH:0
+LF:1
+end_of_record
 `;
 
 const expectedReport = `## Code Coverage Report - 17 of 30 lines covered ( :no_entry: 56.67%) 
@@ -95,6 +100,15 @@ Uncovered lines: :warning: 1, 4-7, 10, 12, 123
 <details>
 <summary>
 
+### tmp_test_files/file4.excluded - File excluded from coverage report 
+
+</summary> 
+File is excluded from coverage report based on your \`include_pattern\` and \`exclude_pattern\` settings.
+</details> 
+
+<details>
+<summary>
+
 ### tmp_test_files/inner_dir - 8 of 8 lines covered ( :gem: 100.00%) 
 
 </summary> 
@@ -105,6 +119,23 @@ Uncovered lines: :warning: 1, 4-7, 10, 12, 123
 
 </summary> 
 :shipit: 
+</details> 
+
+</details> 
+
+<details>
+<summary>
+
+### unmapped_dir - Directory excluded from coverage report 
+
+</summary> 
+<details>
+<summary>
+
+### unmapped_file - File excluded from coverage report 
+
+</summary> 
+File is excluded from coverage report based on your \`include_pattern\` and \`exclude_pattern\` settings.
 </details> 
 
 </details> 
