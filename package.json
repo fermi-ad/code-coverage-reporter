@@ -1,6 +1,6 @@
 {
   "name": "code-coverage-reporter",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A GitHub Action to report code coverage within Pull Requests",
   "main": "src/index.js",
   "type": "module",
@@ -20,11 +20,11 @@
   },
   "homepage": "https://github.com/fermi-ad/code-coverage-reporter#readme",
   "dependencies": {
-    "@actions/core": "3.0.0",
-    "@actions/github": "9.0.0"
+    "@actions/core": "^3.0.0",
+    "@actions/github": "^9.0.0"
   },
   "devDependencies": {
-    "@vercel/ncc": "0.38.4",
+    "@vercel/ncc": "^0.38.4",
     "cross-env": "^10.1.0"
   }
 }
