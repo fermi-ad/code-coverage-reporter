@@ -8,6 +8,7 @@ async function run() {
         const lcovInfo = fs.readFileSync(getInput('coverage_file', { required: true }), 'utf8');
         const coverageReport = new CoverageReport();
         coverageReport.parse(lcovInfo);
+        const body = coverageReport.generateReport();
 
         const pr_number = context.payload.pull_request?.number;
         const octokit = getOctokit(getInput('github_token', { required: true }));
@@ -15,13 +16,13 @@ async function run() {
             await octokit.rest.issues.createComment({
                 ...context.repo,
                 issue_number: pr_number,
-                body: coverageReport.generateReport()
+                body
             });
         } else {
             await octokit.rest.repos.createCommitComment({
                 ...context.repo,
                 commit_sha: context.sha,
-                body: coverageReport.generateReport()
+                body
             });
         }
     } catch (error) {
