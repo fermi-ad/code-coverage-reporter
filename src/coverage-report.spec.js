@@ -71,61 +71,61 @@ const expectedReport = `## Code Coverage Report - 17 of 31 lines covered ( :no_e
 
 ### file1 - 4 of 8 lines covered ( :no_entry: 50.00%)
 
-</summary> 
+</summary>
 &emsp; Uncovered lines: :warning: 4, 6-8
-</details> 
+</details>
 
 <details>
 <summary>
 
 ### file3 - 5 of 13 lines covered ( :no_entry: 38.46%)
 
-</summary> 
+</summary>
 &emsp; Uncovered lines: :warning: 1, 4-7, 10, 12, 123
-</details> 
+</details>
 
 <details>
 <summary>
 
 ### inner_dir - 8 of 8 lines covered ( :gem: 100.00%)
 
-</summary> 
+</summary>
 <details>
 <summary>
 
-&emsp;### file1 - 8 of 8 lines covered ( :gem: 100.00%)
+### &emsp;file1 - 8 of 8 lines covered ( :gem: 100.00%)
 
-</summary> 
+</summary>
 &emsp;&emsp; :shipit:
-</details> 
+</details>
 
-</details> 
+</details>
 
 <details>
 <summary>
 
 ### unmapped_dir - 0 of 1 lines covered ( :no_entry: 0.00%)
 
-</summary> 
+</summary>
 <details>
 <summary>
 
-&emsp;### unmapped_file - 0 of 1 lines covered ( :no_entry: 0.00%)
+### &emsp;unmapped_file - 0 of 1 lines covered ( :no_entry: 0.00%)
 
-</summary> 
+</summary>
 &emsp;&emsp; :no_entry: This file is missing coverage.
-</details> 
+</details>
 
-</details> 
+</details>
 
 <details>
 <summary>
 
 ### file2 - 0 of 1 lines covered ( :no_entry: 0.00%)
 
-</summary> 
+</summary>
 &emsp; :no_entry: This file is missing coverage.
-</details> 
+</details>
 
 <details>
 <summary>

@@ -67,11 +67,11 @@ export class DirectoryCoverage {
         return `<details>
 <summary>
 
-${'&emsp;'.repeat(indentLevel)}### ${this.filename} - ${this.headingSummary()}
+### ${'&emsp;'.repeat(indentLevel)}${this.filename} - ${this.headingSummary()}
 
-</summary> 
+</summary>
 ${Array.from(this.cache.values()).map(coverage => coverage.generateReport(indentLevel + 1)).join('\n')}
-</details> 
+</details>
 `;
     }
 }
@@ -167,11 +167,11 @@ export class FileCoverage {
         return `<details>
 <summary>
 
-${'&emsp;'.repeat(indentLevel)}### ${this.filename} - ${formatCoveragePercentage(this.getMetrics())}
+### ${'&emsp;'.repeat(indentLevel)}${this.filename} - ${formatCoveragePercentage(this.getMetrics())}
 
-</summary> 
+</summary>
 ${'&emsp;'.repeat(indentLevel + 1)} ${this.getUncoveredLinesPretty()}
-</details> 
+</details>
 `;
     }
 }
@@ -198,7 +198,7 @@ export class ExcludedCoverage {
         return `<details>
 <summary>
 
-${'&emsp;'.repeat(indentLevel)}### ${this.filename} - Excluded from coverage report
+### ${'&emsp;'.repeat(indentLevel)}${this.filename} - Excluded from coverage report
 
 </summary>
 ${'&emsp;'.repeat(indentLevel + 1)} Excluded based on your \`include_pattern\` and \`exclude_pattern\` settings.
