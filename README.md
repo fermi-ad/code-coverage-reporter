@@ -35,7 +35,7 @@ This action may be called from within any workflow that produces a `lcov.info` f
   
   Again, taking Dart as an example, all the test files end with `.dart`, but we don't want those files crushing the test coverage metrics (why would we write tests to cover our tests? Then we'd need tests for those tests, and now we're creating an infinity of tests...). Because all the Dart tests live in the `test/` directory, we can add a pattern here that excludes any filepath with `test/` in it.
   
-  Default: `\\b\\B` -> Indicates a simultaneous word boundary and non-boundary - logically impossible. Therefore, anything matching the [`include_pattern`](#include_pattern) will be checked for coverage.
+  Default: none — when omitted, no files matching `include_pattern` are excluded.
 
 ### Example workflow
 ```
@@ -62,6 +62,15 @@ jobs:
       ...
 ```
  
+## How it works
+
+The action parses the LCOV report in a multi-step pipeline:
+
+1. **`parse()`** — reads each `SF:` record from the LCOV file and builds an in-memory tree of [`FileCoverage`](src/coverage-nodes.js) and [`DirectoryCoverage`](src/coverage-nodes.js) nodes.
+2. **`findRoot`** — descends single-child directory chains to strip container-path prefixes that CI environments (e.g. `/workspace/my-project/`) prepend to every source path.
+3. **`resolveRootFsPath`** — locates the matching directory on the local filesystem by name, validating the match against known cache children.
+4. **`applyRecursiveMatchRules`** — walks the filesystem and reconciles it against the parsed cache: files present on disk but absent from the LCOV report are added with 0% coverage, entries matching `exclude_pattern` are replaced with [`ExcludedCoverage`](src/coverage-nodes.js) records, and empty directories are pruned.
+
 ## Build
 
 This is a JavaScript GitHub action, with `index.js` as its entry point. To ensure dependencies are correctly aligned for use within CI/CD pipelines, the "development" code must be packaged into a "production" `index.js`.
@@ -95,30 +104,29 @@ This repository comes with a `build` script for automatically packaging the "pro
 # Code Coverage Report - 416 of 495 lines covered ( :warning: 84.04%)
 
 <details>
-  <summary>
-    
-  ### src - 416 of 495 lines covered ( :warning: 84.04%)
-    
-  </summary>
-  <details>
-    <summary>
-      
-  ### src/db - 90 of 123 lines covered ( :no_entry: 73.17%)
-      
-  </summary>
-    <details>
-      <summary>
-      
-  ### src/db/mod.rs - 90 of 90 lines covered ( :white_check_mark: 100.00%)
-        
-   </summary>
-      
-  Uncovered lines: :white_check_mark: None
-      
-  </details>
-  </details>
+<summary>
 
-  ### Etc...
+### src - 416 of 495 lines covered ( :warning: 84.04%)
+
+</summary> 
+<details>
+<summary>
+
+&emsp;### db - 90 of 123 lines covered ( :no_entry: 73.17%)
+
+</summary> 
+<details>
+<summary>
+
+&emsp;&emsp;### mod.rs - 90 of 90 lines covered ( :white_check_mark: 100.00%)
+
+</summary> 
+&emsp;&emsp;&emsp; :shipit:
+</details> 
+
+</details> 
+
+### Etc...
 </details>
 
 ---
