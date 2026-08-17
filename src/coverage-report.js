@@ -123,31 +123,25 @@ function resolveRootFsPath(root) {
 
     const rootDirName = root.filename.split('/').filter(Boolean).at(-1);
     const knownChildren = root.cache ? Array.from(root.cache.keys()) : [];
-    return searchForDir('.', rootDirName, knownChildren);
+    const bestMatch = searchForDir('.', rootDirName, knownChildren);
+	return bestMatch.path;
 }
 
 /**
  * Recursively searches `searchPath` for a directory named `targetName`.
- * When `knownChildren` is non-empty, validates a name match by checking that at
- * least one known child exists inside the candidate directory. If none match,
- * the search continues deeper — a same-named directory further down the tree
- * may be the correct one.
- *
- * @param {string} searchPath
- * @param {string} targetName
- * @param {string[]} knownChildren
- * @returns {string|null}
+ * Returns the best { path, matches } object found in the subtree.
  */
-function searchForDir(searchPath, targetName, knownChildren) {
+function searchForDir(searchPath, targetName, knownChildren, currentBest = { path: null, matches: -1 }) {
     let entries;
     try {
         entries = fs.readdirSync(searchPath);
     } catch {
-        return null;
+        return currentBest;
     }
 
     for (const entry of entries) {
         const fullPath = `${searchPath}/${entry}`;
+		
         let stats;
         try {
             stats = fs.statSync(fullPath);
@@ -165,25 +159,28 @@ function searchForDir(searchPath, targetName, knownChildren) {
                     fsEntries = new Set();
                 }
                 const matchCount = knownChildren.filter(child => fsEntries.has(child)).length;
-                if (matchCount === 0) {
-                    // Name matches but children don't — keep searching; a deeper
-                    // directory with the same name may be the correct one.
-                    console.info(`Directory name matches '${targetName}' at ${fullPath} but none of the expected children were found — searching deeper.`);
-                } else {
-                    console.info(`Resolved coverage root '${targetName}' to filesystem path: ${fullPath} (${matchCount}/${knownChildren.length} children matched)`);
-                    return fullPath;
-                }
+				if (matchCount === knownChildren.length) {
+					console.info(`Resolved coverage root '${targetName}' to filesystem path: ${fullPath} (${matchCount}/${knownChildren.length} children matched)`);
+                    return { path: fullPath, matches: matchCount };
+				}
+				
+				if (matchCount > currentBest.matches) {
+					currentBest = { path: fullPath, matches: matchCount};
+				}
             } else {
                 console.info(`Resolved coverage root '${targetName}' to filesystem path: ${fullPath} (no children to validate)`);
-                return fullPath;
+                return { path: fullPath, matches: 0 };
             }
         }
+		// Pass the globally tracking currentBest down into the subtree recursion
+        currentBest = searchForDir(fullPath, targetName, knownChildren, currentBest);
 
-        const found = searchForDir(fullPath, targetName, knownChildren);
-        if (found !== null) return found;
+        if (currentBest.matches === knownChildren.length) {
+			return currentBest;
+		}
     }
 
-    return null;
+    return currentBest;
 }
 
 /**
