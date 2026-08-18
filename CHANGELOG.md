@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
-- Updated the root directory search algorithm to look for a perfect match of directory name and know child elements. It falls back to the closest match if no perfect match could be found. A perfect match short-circuits the search and returns immediately.
+- Updated the root directory search algorithm to look for a perfect match of directory name and known child elements. It falls back to the closest match if no perfect match could be found. A perfect match short-circuits the search and returns immediately.
 
 ---
 
